@@ -1,6 +1,23 @@
 -- Active: 1694997867399@@127.0.0.1@3306@projectci
 CREATE DATABASE IF NOT EXISTS projectCI;
 USE projectCI;
+-----------------------------------------------
+-- informacion
+-----------------------------------------------
+CREATE TABLE IF NOT EXISTS Estado (
+  idEstado INT AUTO_INCREMENT PRIMARY KEY,
+  nombreEstado VARCHAR(150) NOT NULL
+);
+-----------------------------------------------
+-- Insert en tablas de informacion
+-----------------------------------------------
+INSERT INTO Estado (nombreEstado)
+VALUES ('Proceso'),
+  ('Detenido'),
+  ('Finalizado');
+-----------------------------------------------
+-- tipos de usuario
+-----------------------------------------------
 CREATE TABLE IF NOT EXISTS JefeArea(
   idJefeArea INT AUTO_INCREMENT PRIMARY KEY,
   nombreJefeArea VARCHAR(150) NOT NULL,
@@ -16,10 +33,10 @@ CREATE TABLE IF NOT EXISTS Estuadientes(
   nombreEstudiente VARCHAR(150) NOT NULL,
   codigoEstdiente INT NOT NULL
 );
-CREATE TABLE IF NOT EXISTS ProfesoressProyecto(
+CREATE TABLE IF NOT EXISTS ProfesoresProyecto(
   idProfeProyecto INT AUTO_INCREMENT PRIMARY KEY,
   idProfesores INT NOT NULL,
-  FOREIGN KEY (idProfesores) REFERENCES Estuadientes(idProfesor)
+  FOREIGN KEY (idProfesores) REFERENCES Profesor(idProfesor)
 );
 CREATE TABLE IF NOT EXISTS EstudiantesProyecto(
   idEstuProyecto INT AUTO_INCREMENT PRIMARY KEY,
@@ -36,21 +53,27 @@ CREATE TABLE IF NOT EXISTS Proyectos(
   tematicaProyecto VARCHAR(150) NOT NULL,
   FechaProyecto DATE NOT NULL,
   idEstado INT NOT NULL,
-  idProfesor INT NO NULL,
+  idProfesor INT NOT NULL,
   idEstudientes INT NOT NULL,
-  FOREIGN KEY (idEstado) REFERENCES (),
+  FOREIGN KEY (idEstado) REFERENCES Estado(idEstado),
   FOREIGN KEY (idProfesor) REFERENCES Profesor(idProfesor),
   FOREIGN KEY (idEstudientes) REFERENCES EstudiantesProyecto(idEstuProyecto)
 );
-CREATE TABLE IF NOT EXISTS Cuenta(
-  idCuenta INT AUTO_INCREMENT PRIMARY KEY,
-  tipoCuenta VARCHAR(150) NOT NULL
+------------------------------------------------------------------------------------
+-- Creacion de tabla de usuarios por cada rol
+------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Rol (
+  idRol INT AUTO_INCREMENT PRIMARY KEY,
+  tipoRol VARCHAR(150) NOT NULL,
+  visible BOOLEAN NOT NULL DEFAULT 1
 );
-CREATE TABLE IF NOT EXISTS Usuario(
+CREATE TABLE IF NOT EXISTS Usuarios(
   idUsuario INT AUTO_INCREMENT PRIMARY KEY,
+  nombreUsuario VARCHAR(150) NOT NULL,
   usuario VARCHAR(150) NOT NULL,
   contrasenia VARCHAR(150) NOT NULL,
-  idCuenta INT NOT NULL,
-  INDEX (idCuenta),
-  FOREIGN KEY (idCuenta) REFERENCES Cuenta(idCuenta)
+  idRol INT NOT NULL,
+  INDEX (idRol),
+  visible BOOLEAN NOT NULL DEFAULT 1,
+  FOREIGN KEY (idRol) REFERENCES Rol(idRol)
 );
