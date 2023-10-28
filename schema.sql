@@ -1,4 +1,4 @@
--- Active: 1694997867399@@127.0.0.1@3306@projectci
+-- Active: 1694611473560@@127.0.0.1@3306@projectci
 CREATE DATABASE IF NOT EXISTS projectCI;
 USE projectCI;
 -----------------------------------------------
@@ -6,7 +6,8 @@ USE projectCI;
 -----------------------------------------------
 CREATE TABLE IF NOT EXISTS Estado (
   idEstado INT AUTO_INCREMENT PRIMARY KEY,
-  nombreEstado VARCHAR(150) NOT NULL
+  nombreEstado VARCHAR(150) NOT NULL,
+  visible BOOLEAN DEFAULT 1
 );
 -----------------------------------------------
 -- Insert en tablas de informacion
@@ -21,31 +22,32 @@ VALUES ('Proceso'),
 CREATE TABLE IF NOT EXISTS JefeArea(
   idJefeArea INT AUTO_INCREMENT PRIMARY KEY,
   nombreJefeArea VARCHAR(150) NOT NULL,
-  codigoJefeArea INT NOT NULL
+  codigoJefeArea INT NOT NULL,
+  visible BOOLEAN DEFAULT 1
 );
 CREATE TABLE IF NOT EXISTS Profesor(
   idProfesor INT AUTO_INCREMENT PRIMARY KEY,
   nombreProfesor VARCHAR(150) NOT NULL,
-  codigoProfesor INT NOT NULL
+  codigoProfesor INT NOT NULL,
+  visible BOOLEAN DEFAULT 1
 );
 CREATE TABLE IF NOT EXISTS Estuadientes(
   idEstudiente INT AUTO_INCREMENT PRIMARY KEY,
   nombreEstudiente VARCHAR(150) NOT NULL,
-  codigoEstdiente INT NOT NULL
+  codigoEstdiente INT NOT NULL,
+  visible BOOLEAN DEFAULT 1
 );
 CREATE TABLE IF NOT EXISTS ProfesoresProyecto(
   idProfeProyecto INT AUTO_INCREMENT PRIMARY KEY,
   idProfesores INT NOT NULL,
+  visible BOOLEAN DEFAULT 1,
   FOREIGN KEY (idProfesores) REFERENCES Profesor(idProfesor)
 );
 CREATE TABLE IF NOT EXISTS EstudiantesProyecto(
   idEstuProyecto INT AUTO_INCREMENT PRIMARY KEY,
   idEstudiente INT NOT NULL,
+  visible BOOLEAN DEFAULT 1,
   FOREIGN KEY (idEstudiente) REFERENCES Estuadientes(idEstudiente)
-);
-CREATE TABLE IF NOT EXISTS EstadoProyecto(
-  idEsatdo INT AUTO_INCREMENT PRIMARY KEY,
-  estadoProyecto VARCHAR(150) NOT NULL
 );
 CREATE TABLE IF NOT EXISTS Proyectos(
   idProyecto INT AUTO_INCREMENT PRIMARY KEY,
@@ -55,6 +57,7 @@ CREATE TABLE IF NOT EXISTS Proyectos(
   idEstado INT NOT NULL,
   idProfesor INT NOT NULL,
   idEstudientes INT NOT NULL,
+  visible BOOLEAN DEFAULT 1,
   FOREIGN KEY (idEstado) REFERENCES Estado(idEstado),
   FOREIGN KEY (idProfesor) REFERENCES Profesor(idProfesor),
   FOREIGN KEY (idEstudientes) REFERENCES EstudiantesProyecto(idEstuProyecto)
@@ -77,3 +80,10 @@ CREATE TABLE IF NOT EXISTS Usuarios(
   visible BOOLEAN NOT NULL DEFAULT 1,
   FOREIGN KEY (idRol) REFERENCES Rol(idRol)
 );
+-----------------------------------------------------------
+--  Insertar los roles 
+-----------------------------------------------------------
+INSERT INTO rol (tipoRol)
+VALUES ('alumno'),
+  ('profesor'),
+  ('jefe de area');
