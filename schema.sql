@@ -74,6 +74,8 @@ CREATE TABLE IF NOT EXISTS Usuarios(
   idUsuario INT AUTO_INCREMENT PRIMARY KEY,
   nombreUsuario VARCHAR(150) NOT NULL,
   usuario VARCHAR(150) NOT NULL,
+  codigo VARCHAR(100) NOT NULL,
+  correo VARCHAR(500) NOT NULL,
   contrasenia VARCHAR(150) NOT NULL,
   idRol INT NOT NULL,
   INDEX (idRol),
