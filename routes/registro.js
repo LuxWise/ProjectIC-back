@@ -30,7 +30,7 @@ registroRoutes.post('/registro', async (req, res) => {
   const usuario = firtsletter(nombre) + firtsName(apellido)
 
   try {
-    const result = await postUsuarios(nombreUsuario, usuario, contrasenia, codigo, correo, rol);
+    const result = await postUsuarios(nombreUsuario, usuario, codigo, correo, contrasenia, rol);
     res.status(200).send(result)
   } catch (err) {
     console.error(err)

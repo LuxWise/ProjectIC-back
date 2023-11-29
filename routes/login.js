@@ -22,17 +22,17 @@ loginRoute.post('/login', (req, res) => {
     'SELECT * FROM usuarios WHERE usuario = ? AND  contrasenia = ?',
     [usuario, contrasenia],
     (err, result) => {
-      if (err) {
-        res.status(500).send(err)
+      if (err)
+        return res.json({ Messege: 'server error' })
+      if (result.length > 0) {
+        const nombre = result[0].nombreUsuario
+        const rol = result[0].rol
+        const id = result[0].id
+        const token = jwt.sign({ nombre, rol, id }, "Stack", { expiresIn: '1h' });
+        return res.json({ Status: 'exito', Token: token, Nombre: nombre })
+
       } else {
-        if (result.length > 0) {
-          const token = jwt.sign({ usuario }, "Stack", {
-            expiresIn: '3m'
-          });
-          res.send(token)
-        } else {
-          res.status(400).send('Usuario no existe')
-        }
+        return res.json({ Messege: 'Usuario no existe' })
       }
     }
   );
