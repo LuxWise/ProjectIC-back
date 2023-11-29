@@ -15,10 +15,22 @@ registroRoutes.get('/registro', async (req, res) => {
 })
 
 registroRoutes.post('/registro', async (req, res) => {
-  const { nombre, usuario, contrasenia, rol } = req.body
+  const { nombre, apellido, codigo, correo, contrasenia, rol } = req.body
+
+  const firtsletter = (str) => {
+    let letras = str.split('')
+    return letras[0]
+  }
+  const firtsName = (str) => {
+    let letras = str.split(' ')
+    return letras[0]
+  }
+
+  const nombreUsuario = nombre + ' ' + apellido;
+  const usuario = firtsletter(nombre) + firtsName(apellido)
 
   try {
-    const result = await postUsuarios(nombre, usuario, contrasenia, rol);
+    const result = await postUsuarios(nombreUsuario, usuario, contrasenia, codigo, correo, rol);
     res.status(200).send(result)
   } catch (err) {
     console.error(err)

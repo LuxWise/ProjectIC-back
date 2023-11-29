@@ -13,12 +13,14 @@ export const getUsuarios = async () => {
   return rows;
 }
 
-export const postUsuarios = async (nombre, usuario, contrasenia, rol) => {
+export const postUsuarios = async (nombre, usuario, codigo,
+  correo, contrasenia, rol) => {
   const [result] = await database.query(
     `
-    INSERT INTO usuarios (nombreUsuario, usuario, contrasenia, idRol) 
-    VALUES (?, ?, ?, ?);
-    `, [nombre, usuario, contrasenia, rol]
+    INSERT INTO usuarios (nombreUsuario, usuario, codigo, correo, contrasenia, idRol) 
+    VALUES (?, ?, ?, ?, ?, ?);
+    `, [nombre, usuario, codigo,
+    correo, contrasenia, rol]
   );
   return result;
 }
